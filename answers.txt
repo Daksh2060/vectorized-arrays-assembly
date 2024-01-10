@@ -1,0 +1,32 @@
+1. These were the resulting timings I got through the timing.cpp file, other trials yeilded similar proportions:
+
+             dot_double_c took    12.4 ms
+               dot_double took    13.0 ms
+           dot_double_vec took     9.6 ms
+            dot_double_vc took    10.5 ms
+
+             dot_single_c took    10.7 ms
+               dot_single took    10.7 ms
+           dot_single_vec took     6.1 ms
+            dot_single_vc took     5.2 ms
+
+       map_poly_double_c1 took    11.6 ms
+       map_poly_double_c2 took    10.9 ms
+          map_poly_double took    11.9 ms
+      map_poly_double_vec took    10.2 ms
+       map_poly_double_vc took     8.5 ms
+
+        map_poly_single_c took     4.2 ms
+          map_poly_single took     7.0 ms
+      map_poly_single_vec took     4.1 ms
+       map_poly_single_vc took     4.2 ms
+
+	Based on these results I can say that using vectors sped up both the dot product and the map polynomial functions across both the assembly and C implementation counterparts. In terms of double-precision, the dot product function in assembly took 13.0 ms versus the 9.6 ms the vectorized dot product function in assembly took, and the C implementation from last week took 12.4 ms vs the 10.5 ms the vectorized C++ implementation from this week took. The same is true for the polynomial functions in terms of double-precision, with last week's assembly implementation taking 11.9 ms versus the 10.2 ms the vectorized function from this week yielded, and the C implementation took 10.9 ms versus the 8.5 ms that the C++ implementation from this week took. This pattern can also be applied to the single-precision, so in general, it can be estimated that using vectors improved performance by about 20-30%.
+
+
+
+2. In terms of using single-precision and double-precision with vectors, we saw some improvements. For the dot product functions, the double-precision implementation using vectors took 9.6 ms and 10.5 ms for the assembly and C++ versions respectively, while last week the non-vectorized double-precision implementations were 12.4 ms and 13.0 ms, so there was a meaningful improvement of 20-30%. For the signal-precision using vectors, it took 6.1 ms and 5.2 ms for the assembly and C++ versions respectively, while last week the non-vectorized single-precision implementations were both 10.7 ms, so there was a very large improvement in the single-precision case of about 40-50%. The polynomial function had a closer set of results, yet was still consistent with the pattern. For the map polynomial function, the double-precision implementation using vectors took 10.2 ms and 8.5 ms for the assembly and C++ versions respectively, while last week the non-vectorized double-precision implementations were 11.9 ms for assembly and 10.9 ms (for the faster C implementation), yielding an improvement of 15-25%, so the improvements were a little smaller than the dot products. For the single-precision using vectors, it took 4.1 ms and 4.2 ms for the assembly and C++ versions respectively, while last week the non-vectorized single-precision implementations took 7.0 ms and 4.2 ms. This is a bit different as while the non-vectorized assembly version was indeed still slower, the C implementation was the same speed as the vectorized assembly and C++ implementation.
+
+
+
+3. As we can see, the dot product C implementation using double-precision had a time of 12.4 ms while the non-vectorized assembly had a time of 13.0 ms, with it even more obvious for the single-precision with both implementations being 10.7 ms. For the map polynomial using double-precision however, the C implementation took 4.2 ms while the vectorized assembly took 4.1 ms, with the same being true for single-precision with times of 10.9 ms and 10.2 ms respectively. So it would seem that the compiler was able to vectorize the C implementation of the map polynomial function, but not the C implementation of the dot product.  After some research on why this might be, I believe this is happening due to a few reasons: It could be a result of the compilers optimization settings, in which the compiler may decide to use vectors (which can be considered riskier) for map polynomial, but not for the dot product as it is already a very predictable algorithm. Another reason could be due to the loop we used, since the map polynomial had much more instructions in its loop than the dot product, so the compiler may try to vectorize them. Perhaps another possibility is that maybe the dot-product function is much newer than the polynomial one, so the compiler may not include it in its vectorization, which could also be a bit newer. These are just my guesses though, and it could even come down to something like hardware, and when the hardware was made.
