@@ -1,4 +1,4 @@
-#include "vectorclass.h" 
+#include "vectorclass/vectorclass.h" 
 
 //Used as guide: https://www.youtube.com/watch?v=TKjYdLIMTrI&ab_channel=Creel
 //Video included in vectorclass.h github page (version2/README)
