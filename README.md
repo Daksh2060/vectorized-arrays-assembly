@@ -8,7 +8,7 @@ This Assembly project involves using the SIMD AVX2 instruction set to vectorize 
 
 ## Installation and Use
 
-Follow these steps to set up and run the Vectorized C Array Demo:
+Follow these steps to set up and run the Vectorized C++ and Assembly Array Demo:
 
 1. Clone the repository to your local machine:
 
