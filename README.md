@@ -1,4 +1,4 @@
-# Vectorized Arrays Demo Assembly
+# Vectorized Arrays Demo in Assembly
 
 This Assembly project involves using the SIMD AVX2 instruction set to vectorize arrays of floats. The project implements a dot product function and a polynomial mapping function, with a 32-bit and 64-bit version for each. The Dot product function returns the dot product of two equal-sized arrays of either single or double-precision float values, while the polynomial mapping function passes each index through a polynomial. The AVX2 instruction set has been used to drastically speed up the process, by using projections and horizontal operations to reduce the number of steps required. A C implementation of each function has been included for comparison.
 
